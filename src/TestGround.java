@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Stack;
 
 public class TestGround {
 
@@ -246,6 +247,37 @@ public class TestGround {
 		}
 	}
 	
+//	Find the common elements of 2 int arrays
+	private static class ComEleTwoArr {
+		private int[] arrA;
+		private int[] arrB;
+		
+		ComEleTwoArr(int[] arrA, int[] arrB) {
+			this.arrA = arrA;
+			this.arrB = arrB;
+		}
+		
+		public void printCommEle() {
+			if(arrA.length == 0 || arrB.length == 0) return;
+			Map<Integer, Stack<Integer>> map = new HashMap<>();
+			for(int i = 0; i < arrA.length; i++) {
+				Stack<Integer> stack;
+				if(map.get(arrA[i]) == null) stack = new Stack<>();
+				else stack = map.get(arrA[i]);
+				stack.push(i);
+				map.put(arrA[i], stack);
+			}
+			for(int i = 0; i < arrB.length; i++) {
+				if(map.get(arrB[i]) != null) {
+					Stack<Integer> stack = map.get(arrB[i]);
+					System.out.println(arrA[stack.pop()]);
+					if(stack.isEmpty()) map.put(arrB[i], null);
+					else map.put(arrB[i], stack);
+				}
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
 		
@@ -295,6 +327,12 @@ public class TestGround {
 		//game.shuffle();
 		//game.draw();
 		
+//		Find the common elements of 2 int arrays
+		int[] arrA = {1, 2, 3, 4, 5, 6, 7, 2, 8, 9, 10};
+		int[] arrB = {2, 4, 9, 6, 12, 76, 2, 2};
+		ComEleTwoArr tempCla = new ComEleTwoArr(arrA, arrB);
+		tempCla.printCommEle();
+		
 	}
 	
 }
@@ -303,7 +341,6 @@ public class TestGround {
 
 
 
-//	Find the common elements of 2 int arrays
 //	Implement binary search of a sorted array of integers
 //	Implement binary search in a rotated array (ex. {5,6,7,8,1,2,3})
 //	Use dynamic programming to find the first X prime numbers
